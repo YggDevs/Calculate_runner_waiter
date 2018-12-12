@@ -92,6 +92,7 @@
 
 <input type="button" value="Calcular" onclick="Calcular();">
 
+
 <div class="progress">
 	
 	
@@ -120,11 +121,13 @@ function creaunInput() {
     var x = document.createElement("INPUT");
     x.setAttribute("id", "costesolucion");
     x.setAttribute("type", "input");
-    x.setAttribute("value", "00");
+    x.setAttribute("value", "");
    
     document.body.appendChild(x);
     
 }
+
+//funcion crea un boton al final del resultado
 function creauninputButton() {
     var x = document.createElement("INPUT");
     x.setAttribute("id", "Bcostesolucion");
@@ -142,11 +145,11 @@ function muestraMensaje() {
   alert('mensaje numero de personal');
 }
 		
-var muestramensage = document.getElementById("mensaje").onclick = muestraMensaje;
+ var muestramensage = document.getElementById("mensaje").onclick = muestraMensaje;
 
-
+//funcion que resta los gastos del año al valor de la solucion
  function CalcularvalordelaSolucion() {
-var datosdecreaunimput= document.getElementById('costesolucion').value;
+ var datosdecreaunimput= document.getElementById('costesolucion').value;
  var numerocomensales = document.getElementById('NumeroComensales').value;
  var numerodiasfuertes = document.getElementById('NumeroDiasfuertes').value;
  var numerodiasflojos = document.getElementById('NumeroDiasflojos').value;
@@ -163,16 +166,27 @@ var datosdecreaunimput= document.getElementById('costesolucion').value;
       var op10 = ((op9+op8)*12);
       
       var resultadosolucion=op10-datosdecreaunimput;
-      var resultadosolucionencincoaños=op10-(datosdecreaunimput)*60;
+      var resultadosolucionencincoaños=(op10-datosdecreaunimput)*60;
 		var s =document.getElementById('mostrarb').innerHTML =
 		"Beneficios el primer año"+resultadosolucion+"<br>"
-		+"Beneficios durante la vida del equipo"+resultadosolucionencincoaños   ;
+		+"Beneficios durante la vida del equipo cinco años"+resultadosolucionencincoaños   ;
 }
  
  
- function Calcular() {
+ 
+ // esta funcion añade un imput y un boton
+ function botoncomercial(){
+   
    creaunInput();
    creauninputButton();
+   
+ }
+ 
+ 
+ 
+ 
+ function Calcular() {
+   botoncomercial();
  var datosdecreaboton= document.getElementById('Bcostesolucion').onclick=CalcularvalordelaSolucion;
  var datosdecreaunimput= document.getElementById('costesolucion').value;
  var numeropersonal = document.getElementById('NumerodePersonal').value;  //numpersonal
@@ -188,52 +202,30 @@ var datosdecreaunimput= document.getElementById('costesolucion').value;
 //Calculos
 
 //restar precio de coste de la solucion a perdidas totales
-var costesoluciontotal= datosdecreaunimput-op10;
-
-
+      var costesoluciontotal= datosdecreaunimput-op10;
 
 //Primera operación: Coste bruto mensual del personal (numero de personal x 2000)
-var op1 = numeropersonal * 2000;
-
-
+      var op1 = numeropersonal * 2000;
 
 //Segunda operación: Diferencia gasto medio por cliente (satisfecho - normal)
- var op2 = gastomedioclientes;  
- 
+      var op2 = gastomedioclientes;  
 
- 
- 
- 
- //Tercera operación: Distancia recorrida por los camareros a la cocina 
-	// teorema pitagoras;
-	//longitud de la hipotenusa es igual a la suma de los cuadrados  de los catetos.	
-		// Math.sqrt(Math.pow(distanciamesacocina , 2) + Math.pow(distanciamesacocina, 2))		
-var op3 =distanciamesacocina*2*numerocomensales;
+//Tercera operación: Distancia recorrida por los camareros a la cocina 
+	
+      var op3 =distanciamesacocina*2*numerocomensales;
 
+//Cuarta operación: Distancia recorrida por los camareros a la caja 
+		
+      var op4 =distanciamesacaja*2*numerocomensales*numerodiasfuertes;
 
-
-
-     
-  //Cuarta operación: Distancia recorrida por los camareros a la caja 
-				// ( 
-				//    ((Distancia mesa caja * comensales dias fuertes * numero dias mes fuertes) / 2 ) +
-				//	  ((Distancia mesa caja * comensales dias flojos * numero dias mes flojos) / 2 )   
-  
-    var op4 =distanciamesacaja*2*numerocomensales*numerodiasfuertes;
-    
-     
-     
-     
-     
-  //Quinta operación: Metros totales (Distancia mesa cocina + Distancia mesa caja)
-     var op5 = op3* 1 + op4 * 1;
-			var kilometrostotalesenunaño = op5*365/1000
-			
+//Quinta operación: Metros totales (Distancia mesa cocina + Distancia mesa caja)
+      var op5 = op3* 1 + op4 * 1;
+			var kilometrostotalesenunaño = op5*365/1000;
 			var mediamaraton=kilometrostotalesenunaño-21;
 			var maraton=42;
 			var carreradefondo=3;
 			var carreramediofondo=kilometrostotalesenunaño-600;
-			 var horasquegastanloscamareros=kilometrostotalesenunaño/5;
+			var horasquegastanloscamareros=kilometrostotalesenunaño/5;
      if	(op5 >2  ) {  
      var op5= op5+
     
@@ -242,64 +234,25 @@ var op3 =distanciamesacocina*2*numerocomensales;
     +"<br>Tus camareros se pueden ahorrar "+horasquegastanloscamareros+" horas andando<br>"
      } 
 	
+ //Sexta operación: Dinero perdido por menos consumo cada mes Dias Fuertes
 	
-	
+			var op6 = gastomedioclientes * numerodiasfuertes * 15;
 
-				
-  //Sexta operación: Dinero perdido por menos consumo cada mes Dias Fuertes
-	// (Comensales dia fuerte * Numero dia mes fuerte * Gasto medio diferencia * Porcentaje servicio excelente)
-	//	porcentaje_servicio_excelente = porcentaje_servicio_excelente / 100;		
-			
-					var op6 = gastomedioclientes * numerodiasfuertes * 15;
-				
+ //Séptima operación: Dinero perdido por menos consumo cada mes Dias Flojos
 		
+			var op7 = numerodiasflojos*numerodiasfuertes*gastomedioclientes   ;
+
+ //Octava operación: Dinero perdido por menos consumo cada mes Total
 				
-		  
-			
-			
-			
-			
-			
-			
-			
-			
-			
-				//Séptima operación: Dinero perdido por menos consumo cada mes Dias Flojos
-				// (Comensales dia flojo * Numero dia mes flojo * Gasto medio diferencia * Porcentaje servicio excelente)
-				
-				
-					var op7 = numerodiasflojos*numerodiasfuertes*gastomedioclientes   ;
-				
-			
-	
-				
-				//Octava operación: Dinero perdido por menos consumo cada mes Total
-				// (Dinero perdido por menos consumo cada mes Dias fuertes * Dinero perdido por menos consumo cada mes Dias flojos)
-//var op8 = dinero_perdido_menor_consumo_fuerte * 1 + dinero_perdido_menor_consumo_flojo * 1;
-			//	document.getElementById("dinero_perdido_menor_consumo_total").innerHTML = colocarPuntosLBL(resultado) + " €";
-			 var op8 = op7+op6;
-		
-		
-			 
-			
-			
-				
+			var op8 = op7+op6;
+
 	//Novena operación: Dinero perdido por baja rotacion cada ,mes remontar mas veces mesas
-				// (Comensales dia fuerte * Numero dia mes fuerte * Gasto medio normal * Porcentaje mesas rotar)
-				
-	
-				
-				var op9 = numerocomensales * numerodiasfuertes * gastomedioclientes * 10;
-			
 
-				
-				
-				
-			
-				//Décima operación: Dinero perdido anualmente
-				// ((Dinero perdido por menor consumo cada mes total + Dinero perdido por rotacion cada mes ) * 12 )
-     
-     
+			var op9 = numerocomensales * numerodiasfuertes * gastomedioclientes * 10;
+
+	//Décima operación: Dinero perdido anualmente
+	// ((Dinero perdido por menor consumo cada mes total + Dinero perdido por rotacion cada mes ) * 12 )
+
       var op10 = ((op9+op8)*12);
      
      
