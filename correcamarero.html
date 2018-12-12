@@ -3,10 +3,14 @@
   
 <body>
 
-<h2>Corre camarero</h2>
+<h2>waiter runner</h2>
 
 <form>
- Numero de personal:<br>
+
+ <div id="mensaje" onclick= muestraMensaje>
+ Numero de personal      (i)
+</div>
+
 
    <input type="range" name="Nump" id="NumerodePersonal" 
  value="5" min="1" max="60" 
@@ -15,6 +19,8 @@
  
 
  <br>
+ 
+ 
  Distancia entre mesa y cocina:<br>
 
  
@@ -62,7 +68,9 @@
  
   <input type="range" name="messf" id="NumeroDiasflojos" 
  value="5" min="1" max="30" 
- oninput="numflojos.value = NumeroDiasflojos.value">
+ oninput="numflojos.value = NumeroDiasflojos.value"
+>
+   
    <output  id="numflojos"></output><br>
  
  <br>
@@ -70,8 +78,7 @@
  
   Gasto medio por clientes   :<br>
 
- 
- <input type="range" name="gas" id="GastomedioClientes" 
+  <input type="range" name="gas" id="GastomedioClientes" 
  value="5" min="1" max="30" 
  oninput="gastomedioclie.value = GastomedioClientes.value">
    <output  id="gastomedioclie"></output><br>
@@ -89,12 +96,16 @@
 	
 	
 	
+	<br>
+
+	
 
 
 </form>
 <p id="calculo"></p>
+<p id="mostrarb"></p>
 
-
+  
 
 
 
@@ -104,17 +115,66 @@
 
 
 <script>
-
-var bar2 = document.getElementById('html5').ldBar; bar1.set(60);
-		
-
-
-
+//funcion crea un input al final del resultado
+function creaunInput() {
+    var x = document.createElement("INPUT");
+    x.setAttribute("id", "costesolucion");
+    x.setAttribute("type", "input");
+    x.setAttribute("value", "00");
+   
+    document.body.appendChild(x);
+    
+}
+function creauninputButton() {
+    var x = document.createElement("INPUT");
+    x.setAttribute("id", "Bcostesolucion");
+    x.setAttribute("type", "button");
+    x.setAttribute("value", "enviar");
+    document.body.appendChild(x);
+    
+}
  
+
+
+//funcion muestra mensaje de alerta cuando se hace click encima
+
+function muestraMensaje() {
+  alert('mensaje numero de personal');
+}
+		
+var muestramensage = document.getElementById("mensaje").onclick = muestraMensaje;
+
+
+ function CalcularvalordelaSolucion() {
+var datosdecreaunimput= document.getElementById('costesolucion').value;
+ var numerocomensales = document.getElementById('NumeroComensales').value;
+ var numerodiasfuertes = document.getElementById('NumeroDiasfuertes').value;
+ var numerodiasflojos = document.getElementById('NumeroDiasflojos').value;
+ var gastomedioclientes = document.getElementById('GastomedioClientes').value;
+  
+			var op6 = gastomedioclientes * numerodiasfuertes * 15;
+			
+			var op7 = numerodiasflojos*numerodiasfuertes*gastomedioclientes   ;
+		
+			var op8 = op7+op6;
+
+			var op9 = numerocomensales * numerodiasfuertes * gastomedioclientes * 10;
+			
+      var op10 = ((op9+op8)*12);
+      
+      var resultadosolucion=op10-datosdecreaunimput;
+      var resultadosolucionencincoaños=op10-(datosdecreaunimput)*60;
+		var s =document.getElementById('mostrarb').innerHTML =
+		"Beneficios el primer año"+resultadosolucion+"<br>"
+		+"Beneficios durante la vida del equipo"+resultadosolucionencincoaños   ;
+}
  
  
  function Calcular() {
-   
+   creaunInput();
+   creauninputButton();
+ var datosdecreaboton= document.getElementById('Bcostesolucion').onclick=CalcularvalordelaSolucion;
+ var datosdecreaunimput= document.getElementById('costesolucion').value;
  var numeropersonal = document.getElementById('NumerodePersonal').value;  //numpersonal
  var distanciamesacocina = document.getElementById('DistanciaMesacocina').value;  // aja
  var distanciamesacaja = document.getElementById('distanciaMesacaja').value;// dente
@@ -126,6 +186,12 @@ var bar2 = document.getElementById('html5').ldBar; bar1.set(60);
 
 
 //Calculos
+
+//restar precio de coste de la solucion a perdidas totales
+var costesoluciontotal= datosdecreaunimput-op10;
+
+
+
 //Primera operación: Coste bruto mensual del personal (numero de personal x 2000)
 var op1 = numeropersonal * 2000;
 
@@ -167,11 +233,13 @@ var op3 =distanciamesacocina*2*numerocomensales;
 			var maraton=42;
 			var carreradefondo=3;
 			var carreramediofondo=kilometrostotalesenunaño-600;
-			
+			 var horasquegastanloscamareros=kilometrostotalesenunaño/5;
      if	(op5 >2  ) {  
      var op5= op5+
-     "<br>En un año tus camareros habran recorrido "+kilometrostotalesenunaño+"km<br>"
     
+     "<br>En un <b>año</b> tus camareros habran recorrido "+kilometrostotalesenunaño+"km<br>"
+      +"<br>Ritmo normal al caminar de una persona 5km/h <br>"
+    +"<br>Tus camareros se pueden ahorrar "+horasquegastanloscamareros+" horas andando<br>"
      } 
 	
 	
@@ -203,37 +271,55 @@ var op3 =distanciamesacocina*2*numerocomensales;
 					var op7 = numerodiasflojos*numerodiasfuertes*gastomedioclientes   ;
 				
 			
+	
 				
-				
-				
-				
-					 /*
 				//Octava operación: Dinero perdido por menos consumo cada mes Total
 				// (Dinero perdido por menos consumo cada mes Dias fuertes * Dinero perdido por menos consumo cada mes Dias flojos)
-var resultado = dinero_perdido_menor_consumo_fuerte * 1 + dinero_perdido_menor_consumo_flojo * 1;
-				document.getElementById("dinero_perdido_menor_consumo_total").innerHTML = colocarPuntosLBL(resultado) + " €";
+//var op8 = dinero_perdido_menor_consumo_fuerte * 1 + dinero_perdido_menor_consumo_flojo * 1;
+			//	document.getElementById("dinero_perdido_menor_consumo_total").innerHTML = colocarPuntosLBL(resultado) + " €";
+			 var op8 = op7+op6;
+		
+		
+			 
+			
+			
 				
-	//Novena operación: Dinero perdido por baja rotacion cada mes
+	//Novena operación: Dinero perdido por baja rotacion cada ,mes remontar mas veces mesas
 				// (Comensales dia fuerte * Numero dia mes fuerte * Gasto medio normal * Porcentaje mesas rotar)
 				
-				porcentaje_mesas_rotar = porcentaje_mesas_rotar / 100;
-					var resultado = dias_fuertes_comensales * dias_fuertes_mes * gasto_medio_normal * porcentaje_mesas_rotar;
-					document.getElementById("dinero_perdido_baja_rotacion").innerHTML = colocarPuntosLBL(resultado) + " €";
-				} else {
-					document.getElementById("dinero_perdido_baja_rotacion").innerHTML = "0 €";
-				}
+	
+				
+				var op9 = numerocomensales * numerodiasfuertes * gastomedioclientes * 10;
+			
+
+				
+				
+				
+			
 				//Décima operación: Dinero perdido anualmente
 				// ((Dinero perdido por menor consumo cada mes total + Dinero perdido por rotacion cada mes ) * 12 )
      
+     
+      var op10 = ((op9+op8)*12);
+     
+     
+    
+    /* 
+     
+     
      var resultado = ((dinero_perdido_menor_consumo_total * 1) + (dinero_perdido_baja_rotacion * 1)) * 12;
 				document.getElementById("dinero_perdido_anualmente").innerHTML = colocarPuntosLBL(resultado) + " €";
+	
+	
+	
+	
+	
+	
 				
  //Undécima operación: Beneficios durante el primer año
 				// ((dinero perdido anualmente - costes de la solucion )    
      
-    var resultado = dinero_perdido_anualmente - coste_solucion;
-				document.getElementById("beneficios_primer_anio").innerHTML = colocarPuntosLBL(resultado) + " €";
-				calculo12(); 
+    
      
   //Doudécima operación: Beneficios durante la vida del equipo (5 años)
 				// ((Dinero perdido anualmente * 4) + Beneficios durante el primer año)   
@@ -269,7 +355,7 @@ var resultado = dinero_perdido_menor_consumo_fuerte * 1 + dinero_perdido_menor_c
      
   //Mostrar resultados   
      
-      var x =document.getElementById('calculo').innerHTML =
+      document.getElementById('calculo').innerHTML =
     
 
       "<b>Distancia extra recorrida por los camareros a la cocina segun comensales</b><br>"+op3
@@ -281,17 +367,21 @@ var resultado = dinero_perdido_menor_consumo_fuerte * 1 + dinero_perdido_menor_c
        +"<b>   Metros totales </b> <br>"+op5
        
        
-       + "<b>Dinero perdido por menos consumo cada mes Dias Fuertes</b><br>"+op6
-       +"<br><b>Dinero perdido por menos consumo cada mes Dias Flojos</b><br>"+op7
-    
-   
+       + "<b>Dinero perdido por menos consumo cada mes Dias Fuertes</b><br>"+op6+ " €"
+       +"<br><b>Dinero perdido por menos consumo cada mes Dias Flojos</b><br>"+op7+ " €"
+       +"<br><b> Dinero perdido por menos consumo cada mes Total</b><br>"+op8+ " €"
+       +"<br><b> Dinero perdido por baja rotación cada mes:</b><br>"
+        +"<br> Usted podra remontar mas mesas con nuestra solucion con las consiguientes ganancias"
+        +"<br>cuanto mayor sea la rotacion en sus mesas mas clientes podran ingresar"
+   +"<br>con los datos que nos ha facilitado usted está pediando "+op9+ " €"
 
-
-
++"<br><b>TOTAL dinero perdido anualmente</b><br>"+op10+ " €"
++"<br><b>ingresa el valor de la solucion</b><br>";
 
 
 
 }
+
 
 </script>
 
